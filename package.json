@@ -10,6 +10,10 @@
     "access": "public"
   },
   "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepack": "npm run build",
+    "postpack": "npm run clean",
     "build": "tsc --project . --module commonjs --outDir dist --declaration true",
     "test": "ts-node node_modules/tape/bin/tape 'test/index.ts' | tap-spec"
   },
@@ -34,6 +38,7 @@
     "@types/jsdom": "^16.2.3",
     "@types/tape": "^4.13.0",
     "jsdom": "^16.4.0",
+    "rimraf": "^3.0.2",
     "tap-spec": "^5.0.0",
     "tape": "^5.0.1",
     "ts-node": "^9.0.0",
