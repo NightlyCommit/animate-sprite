@@ -1,5 +1,3 @@
-import set = Reflect.set;
-
 declare type Settings = {
     width: number,
     height: number,
@@ -224,8 +222,17 @@ export function init(node: HTMLElement, settings: Settings): PluginInterface {
         }
     }
 
-    function getNextFrame(deltaFrames: number) {
-        return (settings.reverse) ? currentFrame + deltaFrames : currentFrame - deltaFrames;
+    function getNextFrame(deltaFrames: number, direction: 'right' | 'left' = 'right') {
+        if (settings.reverse) {
+            if (direction === "left") {
+                direction = "right";
+            }
+            else {
+                direction = "left";
+            }
+        }
+
+        return (direction === 'left') ? currentFrame + deltaFrames : currentFrame - deltaFrames;
     }
 
     function isOutOfRange(frame: number) {
@@ -368,7 +375,7 @@ export function init(node: HTMLElement, settings: Settings): PluginInterface {
         // e.g one frame is 10px, swipeLength is 13px, we change 1 frame and add 3px to the next swipe,
         // so fullwidth swipe is always rotate sprite for 1 turn
         swipePixelsCorrection = swipeLength - (swipeThreshold * deltaFrames);
-        changeFrame(getNextFrame(deltaFrames));
+        changeFrame(getNextFrame(deltaFrames, direction));
     }
 
     function swipeEnd() {
